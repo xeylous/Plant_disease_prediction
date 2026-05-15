@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+/* ── LeafIQ AI — Design Tokens ───────────────────────────── */
+
+:root {
+  /* Premium Next-Gen Palette */
+  --primary: #9eb25d;
+  --primary-light: #eefcce;
+  --primary-dark: #6a7c3a;
+  --accent: #edff71;
+  --accent-light: #f1db4b;
+  --accent-blue: #a7c6da;
+
+  /* Surfaces */
+  --bg: #f8fbf5;
+  --bg-alt: #eff5e6;
+  --surface: #ffffff;
+  --surface-glass: rgba(255, 255, 255, 0.65);
+
+  /* Text */
+  --text: #1a2416;
+  --text-muted: #4f6345;
+  --text-light: #7c9470;
+
+  /* Borders */
+  --border: #dbe8d1;
+  --border-glass: rgba(158, 178, 93, 0.2);
+
+  /* Misc */
+  --danger: #ef4444;
+  --success: #9eb25d;
+  --warning: #f1db4b;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: 0 8px 32px rgba(158, 178, 93, 0.1);
+  --shadow-lg: 0 16px 48px rgba(158, 178, 93, 0.15);
+}
+
+.dark {
+  --primary: #eefcce;
+  --primary-light: #edff71;
+  --primary-dark: #9eb25d;
+  --accent: #f1db4b;
+  --accent-light: #a7c6da;
+  --accent-blue: #a7c6da;
+
+  --bg: #090b08;
+  --bg-alt: #12160f;
+  --surface: #181c14;
+  --surface-glass: rgba(24, 28, 20, 0.6);
+
+  --text: #f4f7f1;
+  --text-muted: #a4b39b;
+  --text-light: #7c8c72;
+
+  --border: #262c1f;
+  --border-glass: rgba(238, 252, 206, 0.08);
+
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(158, 178, 93, 0.1);
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Outfit", "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ── Glassmorphism Utility ───────────────────────────────── */
+
+.glass {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius);
+}
+
+.glass-subtle {
+  background: var(--surface-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glass);
+}
+
+/* ── Animations ──────────────────────────────────────────── */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
+  50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.3); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.15) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+.animate-spin-slow { animation: spin-slow 8s linear infinite; }
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+/* ── Selection ───────────────────────────────────────────── */
+
+::selection {
+  background: rgba(34, 197, 94, 0.25);
+  color: var(--text);
+}
+
+/* ── Skeleton Loader ─────────────────────────────────────── */
+
+.skeleton {
+  background: linear-gradient(90deg, var(--border) 25%, var(--bg-alt) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}

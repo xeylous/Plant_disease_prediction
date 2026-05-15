@@ -1,0 +1,16 @@
+# render.yaml — Render Blueprint for LeafIQ AI Backend
+services:
+  - type: web
+    name: leafiq-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: MODEL_PATH
+        value: model/plant_disease_recog_model_pwp.keras
+      - key: FRONTEND_URL
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11.9"

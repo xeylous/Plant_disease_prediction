@@ -1,0 +1,44 @@
+"""
+Application configuration using Pydantic Settings.
+All environment variables and app constants are managed here.
+"""
+
+import os
+from pydantic_settings import BaseSettings
+from functools import lru_cache
+
+# ── TensorFlow optimization flags (set before TF import anywhere) ──
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
+
+class Settings(BaseSettings):
+    """Central configuration loaded from environment variables."""
+
+    # ── API Keys ──
+    gemini_api_key: str = ""
+
+    # ── Model ──
+    model_path: str = "model/plant_disease_recog_model_pwp.keras"
+
+    # ── CORS ──
+    frontend_url: str = "http://localhost:3000"
+
+    # ── Upload limits ──
+    max_upload_size: int = 10 * 1024 * 1024  # 10 MB
+    allowed_extensions: set = {"jpg", "jpeg", "png", "webp"}
+
+    # ── App metadata ──
+    app_name: str = "LeafIQ AI"
+    app_version: str = "1.0.0"
+
+    class Config:
+        env_file = ".env"
+        case_sensitive = False
+
+
+@lru_cache()
+def get_settings() -> Settings:
+    """Return cached settings singleton."""
+    return Settings()
