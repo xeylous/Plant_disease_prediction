@@ -11,6 +11,12 @@ from functools import lru_cache
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+# Strictly limit threads to prevent massive memory overhead on Render Free Tier
+os.environ['OMP_NUM_THREADS'] = '1'
+os.environ['TF_NUM_INTEROP_THREADS'] = '1'
+os.environ['TF_NUM_INTRAOP_THREADS'] = '1'
+# Prevent memory growth
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 
 
 class Settings(BaseSettings):
