@@ -70,7 +70,7 @@ async def predict_model(file: UploadFile = File(...), api_key: str = Depends(ver
         if image.mode != "RGB":
             image = image.convert("RGB")
         image = image.resize((_input_shape[1], _input_shape[0]))
-        img_array = np.array(image, dtype=np.float32) / 255.0
+        img_array = np.array(image, dtype=np.float32)
         img_array = np.expand_dims(img_array, axis=0)
         
         preds = _model.predict(img_array, verbose=0)
