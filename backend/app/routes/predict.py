@@ -5,9 +5,8 @@ Accepts an image upload, runs inference, and returns AI-generated treatment info
 
 import logging
 from fastapi import APIRouter, UploadFile, File, HTTPException
-
 from app.services.image_service import image_service
-from app.services.model_service import model_service
+
 from app.services.gemini_service import get_ai_solution
 from app.utils.class_labels import CLASS_LABELS, parse_class_label
 from app.schemas.prediction import PredictionResponse
@@ -29,19 +28,30 @@ async def predict_disease(file: UploadFile = File(...)):
     if not valid:
         raise HTTPException(status_code=400, detail=msg)
 
-    # ── 2. Preprocess image ──
+    # ── 3. Run Remote TF inference via Hugging Face ──
     try:
-        target_size = model_service.input_size  # (H, W)
-        processed = image_service.preprocess(contents, target_size)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-    # ── 3. Run TF inference ──
-    try:
-        class_idx, confidence = model_service.predict(processed)
+        import httpx
+        from app.config.settings import get_settings
+        settings = get_settings()
+        
+        hf_url = settings.hf_model_url
+        headers = {}
+        if settings.hf_api_key:
+            headers["X-API-Key"] = settings.hf_api_key
+            
+        # Send raw contents so HF can process it exactly as we did
+        files = {"file": ("image.jpg", contents, file.content_type)}
+        
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.post(hf_url, files=files, headers=headers)
+            resp.raise_for_status()
+            data = resp.json()
+            
+        class_idx = data["class_idx"]
+        confidence = data["confidence"]
     except Exception as e:
-        logger.error(f"Inference error: {e}")
-        raise HTTPException(status_code=500, detail="Model inference failed.")
+        logger.error(f"Inference error from remote model: {e}")
+        raise HTTPException(status_code=502, detail="Failed to reach Model AI Service.")
 
     # ── 4. Map index to label ──
     if class_idx < 0 or class_idx >= len(CLASS_LABELS):

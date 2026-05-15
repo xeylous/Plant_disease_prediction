@@ -25,8 +25,9 @@ class Settings(BaseSettings):
     # ── API Keys ──
     gemini_api_key: str = ""
 
-    # ── Model ──
-    model_path: str = "model/plant_disease_recog_model_pwp.keras"
+    # ── Remote Model API ──
+    hf_model_url: str = "https://your-hf-space-url.hf.space/predict_model"
+    hf_api_key: str = ""
 
     # ── CORS ──
     frontend_url: str = "http://localhost:3000"

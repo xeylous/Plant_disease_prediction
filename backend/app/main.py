@@ -14,7 +14,6 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config.settings import get_settings
-from app.services.model_service import model_service
 from app.routes import predict, health
 from app.middleware.error_handler import (
     http_exception_handler,
@@ -34,24 +33,10 @@ logger = logging.getLogger("leafiq")
 # ── Lifespan — load model once at startup ────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load TF model in the background so it doesn't block server startup."""
-    import asyncio
+    """Start up the backend server."""
     settings = get_settings()
     logger.info(f"Starting {settings.app_name} v{settings.app_version}")
-    
-    def _load_model_blocking():
-        try:
-            model_service.load(settings.model_path)
-            logger.info("Model loaded successfully in background ✓")
-        except Exception as e:
-            logger.error(f"FATAL — model load failed: {e}")
-
-    # Start model loading in a background thread so we can yield immediately
-    # and let Uvicorn bind to the port. Render will see the port open immediately!
-    loop = asyncio.get_running_loop()
-    loop.run_in_executor(None, _load_model_blocking)
-    
-    logger.info("Background model loading started. Yielding to Uvicorn...")
+    logger.info(f"Connected to remote HF model: {settings.hf_model_url}")
     yield  # app is running, port is bound!
     
     logger.info("Shutting down …")
