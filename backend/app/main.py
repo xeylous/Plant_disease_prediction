@@ -34,19 +34,26 @@ logger = logging.getLogger("leafiq")
 # ── Lifespan — load model once at startup ────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load TF model on startup; nothing special on shutdown."""
+    """Load TF model in the background so it doesn't block server startup."""
+    import asyncio
     settings = get_settings()
     logger.info(f"Starting {settings.app_name} v{settings.app_version}")
-    logger.info(f"Loading model from: {settings.model_path}")
+    
+    def _load_model_blocking():
+        try:
+            model_service.load(settings.model_path)
+            logger.info("Model loaded successfully in background ✓")
+        except Exception as e:
+            logger.error(f"FATAL — model load failed: {e}")
 
-    try:
-        model_service.load(settings.model_path)
-        logger.info("Model loaded successfully ✓")
-    except Exception as e:
-        logger.error(f"FATAL — model load failed: {e}")
-        # Don't crash; /health will report "degraded"
-
-    yield  # app is running
+    # Start model loading in a background thread so we can yield immediately
+    # and let Uvicorn bind to the port. Render will see the port open immediately!
+    loop = asyncio.get_running_loop()
+    loop.run_in_executor(None, _load_model_blocking)
+    
+    logger.info("Background model loading started. Yielding to Uvicorn...")
+    yield  # app is running, port is bound!
+    
     logger.info("Shutting down …")
 
 
