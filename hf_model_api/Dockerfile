@@ -8,13 +8,6 @@ ENV HOME=/home/user \
 
 WORKDIR $HOME/app
 
-# Install dependencies (requires root)
-USER root
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgl1-mesa-glx \
-    && rm -rf /var/lib/apt/lists/*
-USER user
-
 # Install pip requirements
 COPY --chown=user requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
