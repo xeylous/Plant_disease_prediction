@@ -26,11 +26,11 @@ class Settings(BaseSettings):
     gemini_api_key: str = ""
 
     # ── Remote Model API ──
-    hf_model_url: str = "https://your-hf-space-url.hf.space/predict_model"
+    hf_model_url: str = "https://xeylous-plant-disease-space.hf.space"
     hf_api_key: str = ""
 
     # ── CORS ──
-    frontend_url: str = "http://localhost:3000"
+    frontend_url: str = "https://plant-disease-prediction-khaki.vercel.app/"
 
     # ── Upload limits ──
     max_upload_size: int = 10 * 1024 * 1024  # 10 MB
