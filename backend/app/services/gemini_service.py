@@ -25,10 +25,7 @@ logger = logging.getLogger("leafiq")
 
 # ── Free-tier model pool (tried in order) ────────────────────
 FREE_MODELS = [
-    "gemini-1.5-flash",
-    "gemini-1.5-pro",
-    "gemini-pro",
-    "gemini-1.0-pro",
+    "gemini-1.5-flash"
 ]
 
 # ── Fallback when Gemini is completely unavailable ───────────
