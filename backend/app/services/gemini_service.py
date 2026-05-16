@@ -25,10 +25,10 @@ logger = logging.getLogger("leafiq")
 
 # ── Free-tier model pool (tried in order) ────────────────────
 FREE_MODELS = [
-    "gemini-2.0-flash",
     "gemini-1.5-flash",
-    "gemini-1.5-flash-8b",
-    "gemini-1.5-pro-latest",
+    "gemini-1.5-pro",
+    "gemini-pro",
+    "gemini-1.0-pro",
 ]
 
 # ── Fallback when Gemini is completely unavailable ───────────
@@ -217,5 +217,19 @@ async def get_ai_solution(crop: str, disease: str, is_healthy: bool) -> AISoluti
         await asyncio.sleep(1)
 
     # ── All models exhausted ──
-    logger.error(f"All Gemini models failed. Last error: {last_err}")
-    return FALLBACK
+    error_msg = str(last_err) if last_err else "Service temporarily unavailable"
+    logger.error(f"All Gemini models failed. Last error: {error_msg}")
+    
+    # Inject the actual error into the fallback so the frontend displays it!
+    debug_fallback = AISolution(
+        overview=f"AI analysis failed. Error: {error_msg}",
+        causes=[f"API Error: {error_msg}"],
+        symptoms=["Refer to visible symptoms on the uploaded leaf image"],
+        organic_treatment=FALLBACK.organic_treatment,
+        chemical_treatment=FALLBACK.chemical_treatment,
+        prevention=FALLBACK.prevention,
+        severity="Unknown",
+        recovery_chance="Unknown",
+        farmer_tips=FALLBACK.farmer_tips,
+    )
+    return debug_fallback
