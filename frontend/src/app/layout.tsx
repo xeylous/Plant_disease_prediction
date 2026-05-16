@@ -18,16 +18,23 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "LeafIQ — AI Plant Disease Detection",
+  title: "GreenScan: Deep Learning-Powered Agricultural Disease Analytics",
   description:
-    "Detect plant diseases instantly with AI. Upload a leaf photo and get treatment recommendations powered by machine learning and Google Gemini.",
+    "Advanced deep-learning platform for agricultural disease analytics. Upload crop images for instant, high-precision detection and expert treatment recommendations.",
   keywords: [
-    "plant disease detection",
-    "AI agriculture",
-    "crop disease",
-    "leaf disease scanner",
-    "agritech",
+    "GreenScan",
+    "deep learning agriculture",
+    "agricultural disease analytics",
+    "crop disease detection",
+    "agritech AI",
+    "precision agriculture",
   ],
+  openGraph: {
+    title: "GreenScan: Deep Learning-Powered Agricultural Disease Analytics",
+    description: "Advanced deep-learning platform for agricultural disease analytics.",
+    type: "website",
+    siteName: "GreenScan",
+  },
 };
 
 export default function RootLayout({

@@ -25,13 +25,13 @@ export default function AboutPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold mb-4"
             style={{ background: "var(--primary)", color: "white" }}>
-            <Leaf size={12} /> About LeafIQ
+            <Leaf size={12} /> About GreenScan
           </div>
           <h1 className="text-3xl font-bold sm:text-4xl" style={{ fontFamily: "var(--font-outfit)" }}>
             AI-Powered Crop Protection
           </h1>
           <p className="mt-4 text-base leading-relaxed max-w-2xl mx-auto" style={{ color: "var(--text-muted)" }}>
-            LeafIQ is an open-source AI platform that helps farmers identify plant diseases
+            GreenScan is an open-source AI platform that helps farmers identify plant diseases
             instantly using deep learning. Our mission is to make professional plant pathology
             tools accessible to every farmer, regardless of their technical expertise or resources.
           </p>
@@ -57,7 +57,7 @@ export default function AboutPage() {
           <h2 className="text-xl font-bold text-white mb-3" style={{ fontFamily: "var(--font-outfit)" }}>Our Mission</h2>
           <p className="text-white/80 leading-relaxed">
             Crop diseases cause billions of dollars in losses annually, disproportionately affecting
-            small-scale farmers in developing regions. LeafIQ democratizes access to AI-powered
+            small-scale farmers in developing regions. GreenScan democratizes access to AI-powered
             diagnostics, enabling early detection and effective treatment to protect food security worldwide.
           </p>
         </motion.div>

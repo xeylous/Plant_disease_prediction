@@ -49,7 +49,7 @@ export default function HealthPage() {
           </div>
           <h1 className="text-3xl font-bold" style={{ fontFamily: "var(--font-outfit)" }}>API Health</h1>
           <p className="mt-2 text-sm" style={{ color: "var(--text-muted)" }}>
-            Real-time status of the LeafIQ backend service
+            Real-time status of the GreenScan backend service
           </p>
         </motion.div>
 

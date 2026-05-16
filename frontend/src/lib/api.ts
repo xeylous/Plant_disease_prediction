@@ -1,5 +1,5 @@
 /**
- * Axios API client for the LeafIQ AI backend.
+ * Axios API client for the GreenScan AI backend.
  */
 
 import axios from "axios";

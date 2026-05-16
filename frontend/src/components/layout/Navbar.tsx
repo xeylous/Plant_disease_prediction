@@ -26,11 +26,12 @@ export function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--primary)] text-white transition-transform group-hover:scale-110">
-              <Leaf size={20} />
+            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm transition-transform group-hover:scale-105 border border-white/20">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt="GreenScan Logo" className="h-full w-full object-cover" />
             </div>
             <span className="text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
-              Leaf<span className="text-[var(--primary)]">IQ</span>
+              Green<span className="text-[var(--primary)]">Scan</span>
             </span>
           </Link>
 

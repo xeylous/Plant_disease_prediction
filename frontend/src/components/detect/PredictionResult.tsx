@@ -65,7 +65,7 @@ export function PredictionResult({ result, imageUrl, onReset }: Props) {
 
   const handleDownload = () => {
     const text = [
-      `LeafIQ AI - Plant Disease Report`,
+      `GreenScan AI - Plant Disease Report`,
       `================================`,
       `Crop: ${result.crop}`,
       `Disease: ${result.disease}`,
@@ -86,7 +86,7 @@ export function PredictionResult({ result, imageUrl, onReset }: Props) {
     const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url; a.download = `leafiq-report-${result.crop}.txt`; a.click();
+    a.href = url; a.download = `GreenScan-report-${result.crop}.txt`; a.click();
     URL.revokeObjectURL(url);
   };
 

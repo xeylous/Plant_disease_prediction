@@ -44,7 +44,7 @@ export function AITechnology() {
               State-of-the-Art AI Under the Hood
             </h2>
             <p className="mt-4 text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
-              LeafIQ combines a purpose-built convolutional neural network with
+              GreenScan combines a purpose-built convolutional neural network with
               Google&apos;s latest generative AI to deliver accurate diagnoses and
               actionable treatment plans in seconds.
             </p>

@@ -7,7 +7,7 @@ const testimonials = [
   {
     name: "Rajesh Patel",
     role: "Organic Farmer, Gujarat",
-    text: "LeafIQ saved my entire tomato crop last season. I detected late blight early and the treatment suggestions were spot on.",
+    text: "GreenScan saved my entire tomato crop last season. I detected late blight early and the treatment suggestions were spot on.",
     stars: 5,
   },
   {
@@ -19,7 +19,7 @@ const testimonials = [
   {
     name: "James O Brien",
     role: "Vineyard Owner, California",
-    text: "I use LeafIQ weekly to monitor my grape vines. The Gemini-powered treatment plans are incredibly detailed and practical.",
+    text: "I use GreenScan weekly to monitor my grape vines. The Gemini-powered treatment plans are incredibly detailed and practical.",
     stars: 5,
   },
 ];

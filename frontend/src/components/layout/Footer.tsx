@@ -20,17 +20,17 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-3">
               <div
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-white"
-                style={{ background: "var(--primary)" }}
+                className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg bg-white"
               >
-                <Leaf size={16} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo.png" alt="GreenScan" className="h-full w-full object-cover" />
               </div>
               <span className="text-lg font-bold" style={{ fontFamily: "var(--font-outfit)" }}>
-                Leaf<span className="text-[var(--primary)]">IQ</span>
+                Green<span className="text-[var(--primary)]">Scan</span>
               </span>
             </Link>
             <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-              AI-powered plant disease detection helping farmers protect their
+              Deep Learning-Powered Agricultural Disease Analytics helping farmers protect their
               crops with instant diagnosis and treatment recommendations.
             </p>
           </div>
@@ -93,7 +93,7 @@ export function Footer() {
           style={{ borderColor: "var(--border)" }}
         >
           <p className="text-xs" style={{ color: "var(--text-light)" }}>
-            © {new Date().getFullYear()} LeafIQ. Built with 🌿 for farmers everywhere.
+            © {new Date().getFullYear()} GreenScan. Built with 🌿 for farmers everywhere.
           </p>
           <p className="text-xs" style={{ color: "var(--text-light)" }}>
             Powered by TensorFlow & Google Gemini AI

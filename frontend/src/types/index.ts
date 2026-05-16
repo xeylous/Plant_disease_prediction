@@ -1,5 +1,5 @@
 /**
- * TypeScript interfaces for the LeafIQ AI platform.
+ * TypeScript interfaces for the GreenScan AI platform.
  */
 
 export interface AISolution {
