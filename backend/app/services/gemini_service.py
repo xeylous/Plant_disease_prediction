@@ -23,10 +23,7 @@ from app.schemas.prediction import AISolution
 
 logger = logging.getLogger("leafiq")
 
-# ── Free-tier model pool (tried in order) ────────────────────
-FREE_MODELS = [
-    "gemini-1.5-flash"
-]
+# We will dynamically fetch the model pool to avoid 404 errors
 
 # ── Fallback when Gemini is completely unavailable ───────────
 FALLBACK = AISolution(
@@ -181,37 +178,47 @@ async def get_ai_solution(crop: str, disease: str, is_healthy: bool) -> AISoluti
 
     last_err: Exception | None = None
 
-    for model_name in FREE_MODELS:
-        try:
-            logger.info(f"Trying Gemini model: {model_name}")
-            model = genai.GenerativeModel(model_name)
+    try:
+        # Dynamically fetch available models to guarantee we don't use a 404 model
+        available_models = [
+            m.name for m in genai.list_models() 
+            if "generateContent" in m.supported_generation_methods
+        ]
+        if not available_models:
+            raise ValueError("No generative models available for this API key.")
+            
+        # Try to use gemini-1.5-flash if it exists, otherwise just use the first available
+        preferred = "models/gemini-1.5-flash"
+        if preferred not in available_models:
+            preferred = available_models[0]
+            
+        logger.info(f"Dynamically selected Gemini model: {preferred}")
+        model = genai.GenerativeModel(preferred)
 
-            # Run blocking SDK call in a thread so we don't block the event loop
-            response = await asyncio.wait_for(
-                asyncio.to_thread(model.generate_content, prompt_text),
-                timeout=30,
-            )
+        # Run blocking SDK call in a thread so we don't block the event loop
+        response = await asyncio.wait_for(
+            asyncio.to_thread(model.generate_content, prompt_text),
+            timeout=30,
+        )
 
-            text = response.text
-            parsed = _parse_json(text)
+        text = response.text
+        parsed = _parse_json(text)
 
-            if parsed:
-                solution = AISolution(**parsed)
-                gemini_cache.set(cache_key, solution)
-                logger.info(f"Gemini success via {model_name}")
-                return solution
-            else:
-                logger.warning(f"{model_name} returned unparseable response.")
+        if parsed:
+            solution = AISolution(**parsed)
+            gemini_cache.set(cache_key, solution)
+            logger.info(f"Gemini success via {preferred}")
+            return solution
+        else:
+            logger.warning(f"{preferred} returned unparseable response.")
+            last_err = ValueError("Unparseable JSON from model")
 
-        except asyncio.TimeoutError:
-            logger.warning(f"{model_name} timed out.")
-            last_err = TimeoutError(f"{model_name} timed out")
-        except Exception as e:
-            logger.warning(f"{model_name} failed: {e}")
-            last_err = e
-
-        # Small delay before trying next model
-        await asyncio.sleep(1)
+    except asyncio.TimeoutError:
+        logger.warning("Gemini timed out.")
+        last_err = TimeoutError("Gemini timed out")
+    except Exception as e:
+        logger.warning(f"Gemini failed: {e}")
+        last_err = e
 
     # ── All models exhausted ──
     error_msg = str(last_err) if last_err else "Service temporarily unavailable"
