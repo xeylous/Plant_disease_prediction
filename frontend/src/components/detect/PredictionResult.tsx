@@ -33,13 +33,27 @@ function Section({ icon: Icon, title, children, defaultOpen = false }: {
   );
 }
 
+function formatText(text: string) {
+  if (!text) return null;
+  const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="font-semibold" style={{ color: "var(--text)" }}>{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith('*') && part.endsWith('*')) {
+      return <strong key={i} className="font-semibold" style={{ color: "var(--text)" }}>{part.slice(1, -1)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 function ListItems({ items }: { items: string[] }) {
   return (
     <ul className="space-y-2">
       {items.map((item, i) => (
         <li key={i} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
           <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: "var(--primary)" }} />
-          {item}
+          <div>{formatText(item)}</div>
         </li>
       ))}
     </ul>
@@ -129,7 +143,7 @@ export function PredictionResult({ result, imageUrl, onReset }: Props) {
         <div className="mt-5 space-y-3">
           {ai.overview && (
             <div className="rounded-xl p-4" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{ai.overview}</p>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{formatText(ai.overview)}</p>
             </div>
           )}
           {ai.causes.length > 0 && <Section icon={AlertTriangle} title="Causes" defaultOpen><ListItems items={ai.causes} /></Section>}
