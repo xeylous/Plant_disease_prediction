@@ -1,4 +1,4 @@
-# 🌿 LeafIQ — AI Plant Disease Detection
+# LeafIQ — AI Plant Disease Detection
 
 **AI-powered plant disease detection platform** that identifies 39 diseases across 14 crop species with instant treatment recommendations.
 
