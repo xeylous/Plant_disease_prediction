@@ -6,7 +6,7 @@ Built with TensorFlow, Google Gemini AI, FastAPI, and Next.js 15.
 
 ---
 
-## ✨ Features
+## Features
 
 - 📸 **Instant Detection** — Upload a leaf photo, get AI diagnosis in seconds
 - 🧠 **AI Treatment Plans** — Google Gemini generates detailed organic & chemical treatments
